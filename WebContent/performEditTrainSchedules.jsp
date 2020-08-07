@@ -3,6 +3,9 @@
 <!--Import some libraries that have classes that we need -->
 <%@ page import="java.io.*,java.util.*,java.sql.*"%>
 <%@ page import="javax.servlet.http.*,javax.servlet.*"%>
+<%@ page import="java.sql.Timestamp"%>
+<%@ page import="java.text.SimpleDateFormat"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -21,34 +24,32 @@ Perform Edit Train Schedule:
 		//Create a SQL statement
 		Statement stmt = con.createStatement();
 		String action = request.getParameter("action");
-		System.out.println("action: " + action);
 		String select = request.getParameter("select");
-		System.out.println("select: "+ select);
 		
 		if (action == null) { // train schedule
-			System.out.println("in train schedule");
 			String edit = request.getParameter("edit");
-			System.out.println("edit: " + edit);
 			String time = request.getParameter("time");
-			System.out.println("time: " + time);
-			
-			
+			String str = "UPDATE TrainSchedule SET `" + edit + "`=\"" + time + "\" WHERE trainID = " + select + "";
+			stmt.executeUpdate(str);
+			out.println("Update successful");
 		} else { // stops
-			System.out.println("in stops");
+			String trainID = select.substring(0, 4);
+			String stationID = select.substring(4);
+
 			if (action.equals("Edit")) {
-				String edit = request.getParameter("edit");
-				System.out.println("edit: " + edit);
 				String time = request.getParameter("time");
-				System.out.println("time: " + time);
+				String edit = request.getParameter("edit");
+				String str = "UPDATE Stops SET `" + edit + "`=\"" + time + "\" WHERE `train ID` = " + trainID + " AND `station ID` = " + stationID + "";
+				stmt.executeUpdate(str);
+				out.println("Update successful");
+
 			} else { // delete
-				String str = "DELETE * FROM Stops WHERE";
+				String str = "DELETE FROM Stops WHERE `train ID` = " + trainID + " AND `station ID` = " + stationID + "";
+				stmt.executeUpdate(str);
+				out.print("Delete Successful");
 			}	
 		}
-		
-		
-		
-		
-		
+			
 		//Close the connection. Don't forget to do it, otherwise you're keeping the resources of the server allocated.
 		con.close();
 		
@@ -58,6 +59,10 @@ Perform Edit Train Schedule:
 		out.print("perform edit train schedule failed");
 	}
 %>
+
+<form method="get" action="customerRepHomepage.jsp">
+	<input type="submit" value="Return to Homepage">
+</form>
 
 </body>
 </html>

@@ -23,7 +23,6 @@
 		
 		//Get the selected radio button from customerRepHome.jsp
 		String entity = request.getParameter("type");
-		System.out.println("entity:" + entity);
 		if (entity.equals("Train Schedule")) {
 			out.print("<h2>Editing Train Schedule</h2>"); 
 			out.print("Select the row you want to edit. Then specify the changes below.<br>"); 
@@ -109,17 +108,11 @@ Please format the time as "YYYY-MM-DD HH:MM:SS", otherwise it will not work.
 			//parse out the results
 			while (result.next()) {
 				String trainID = result.getString("train ID");
-				System.out.println("trainID: " + trainID);
 				String transitLine = result.getString("TransitLineName");
-				System.out.println("transitLine: " + transitLine);
 				String stationID = result.getString("station ID");
-				System.out.println("stationID: " + stationID);
 				String stationName = result.getString("station name");
-				System.out.println("stationName: " + stationName);
 				String arrival = result.getString("arrival datetime");
-				System.out.println("arrival: " + arrival);
 				String departure = result.getString("departure datetime");
-				System.out.println("departure: " + departure);
 				
 				out.print("<tr>");
 				out.print("<td><input type=\"radio\" name=\"select\" value=\"" + trainID + stationID +  "\"required></td>");
@@ -138,8 +131,8 @@ Please format the time as "YYYY-MM-DD HH:MM:SS", otherwise it will not work.
 	<input type="radio" name="action" value="Delete"> Delete
 	<br>
 	<select name="edit" id="edit">
-		<option value="ArrivalDateTime">Arrival DateTime</option>
-		<option value="DepartureDateTime">Departure DateTime</option>
+		<option value="arrival datetime">Arrival DateTime</option>
+		<option value="departure datetime">Departure DateTime</option>
 	</select>
 	to
 	<input type="datetime-local" id="time" value = "2020-08-08 9:20:00" name="time">
@@ -151,7 +144,11 @@ Please format the time as "YYYY-MM-DD HH:MM:SS", otherwise it will not work.
 </form>
 <br>
 Please format the time as "YYYY-MM-DD HH:MM:SS", otherwise it will not work.
-
+<br>
+<br>
+<form method="get" action="customerRepHomepage.jsp">
+	<input type="submit" value="Return to Homepage">
+</form>
 
 <%	
 		}
