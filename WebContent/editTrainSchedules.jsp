@@ -35,8 +35,10 @@
 		<th>Transit Line Name</th> 
 		<th>Origin</th>
 		<th>Destination</th>
-		<th>Arrival Date Time:</th>
-		<th>Departure Date Time:</th>
+		<th>Arrival Date</th>
+		<th>Arrival Time</th>
+		<th>Departure Date</th>
+		<th>Departure Time</th>
 	</tr>
 	
 <%
@@ -53,8 +55,10 @@
 				String transitLine = result.getString("TransitLineName");
 				String origin = result.getString("Origin");
 				String dest = result.getString("Destination");
-				String arrival = result.getString("ArrivalDateTime");
-				String departure = result.getString("DepartureDateTime");
+				String arrivalD = result.getString("ArrivalDate");
+				String departureD = result.getString("DepartureDate");
+				String arrivalT = result.getString("ArrivalTime");
+				String departureT = result.getString("DepartureTime");
 				
 				out.print("<tr>");
 				out.print("<td><input type=\"radio\" name=\"select\" value=\"" + trainID + "\"required></td>");
@@ -62,8 +66,10 @@
 				out.print("<td>" + transitLine + "</td>");
 				out.print("<td>" + origin + "</td>");
 				out.print("<td>" + dest + "</td>");
-				out.print("<td>" + arrival + "</td>");
-				out.print("<td>" + departure + "</td>");
+				out.print("<td>" + arrivalD + "</td>");
+				out.print("<td>" + arrivalT + "</td>");
+				out.print("<td>" + departureD + "</td>");
+				out.print("<td>" + departureT + "</td>");
 				out.print("</tr>");
 			}
 %>
@@ -73,15 +79,18 @@
 	<label for="edit">Edit:</label>
 	
 	<select name="edit" id="edit">
-	  <option value="ArrivalDateTime">Arrival DateTime</option>
-	  <option value="DepartureDateTime">Departure DateTime</option>
+	  <option value="ArrivalDate">Arrival Date</option>
+	  <option value="ArrivalTime">Arrival Time</option>
+	  <option value="DepartureDate">Departure Date</option>
+	  <option value="DepartureTime">Departure Time</option>
 	</select>
 	to
-	<input type="datetime-local" id="time" value = "2020-08-08 9:20:00"
+	<input type="datetime-local" id="time" value = ""
 	       name="time">
 	<input type="submit" value="Submit">
 </form>
-Please format the time as "YYYY-MM-DD HH:MM:SS", otherwise it will not work.
+<br>
+PLease format the date as "YYYY-MM-DD" and/or time as "HH:MM:SS", otherwise it will not work. 
 
 <%		
 			
@@ -96,8 +105,10 @@ Please format the time as "YYYY-MM-DD HH:MM:SS", otherwise it will not work.
 		<th>Transit Line Name</th> 
 		<th>Station ID</th>
 		<th>Station Name</th>
-		<th>Arrival Date Time:</th>
-		<th>Departure Date Time:</th>
+		<th>Arrival Date</th>
+		<th>Arrival Time</th>
+		<th>Departure Date</th>
+		<th>Departure Time</th>
 	</tr>
 <%
 			String str = "SELECT * FROM Stops";
@@ -111,8 +122,10 @@ Please format the time as "YYYY-MM-DD HH:MM:SS", otherwise it will not work.
 				String transitLine = result.getString("TransitLineName");
 				String stationID = result.getString("station ID");
 				String stationName = result.getString("station name");
-				String arrival = result.getString("arrival datetime");
-				String departure = result.getString("departure datetime");
+				String arrivalD = result.getString("arrival date");
+				String arrivalT = result.getString("arrival time");
+				String departureD = result.getString("departure date");
+				String departureT = result.getString("departure time");
 				
 				out.print("<tr>");
 				out.print("<td><input type=\"radio\" name=\"select\" value=\"" + trainID + stationID +  "\"required></td>");
@@ -120,8 +133,10 @@ Please format the time as "YYYY-MM-DD HH:MM:SS", otherwise it will not work.
 				out.print("<td>" + transitLine + "</td>");
 				out.print("<td>" + stationID + "</td>");
 				out.print("<td>" + stationName + "</td>");
-				out.print("<td>" + arrival + "</td>");
-				out.print("<td>" + departure + "</td>");
+				out.print("<td>" + arrivalD + "</td>");
+				out.print("<td>" + arrivalT + "</td>");
+				out.print("<td>" + departureD + "</td>");
+				out.print("<td>" + departureT + "</td>");
 				out.print("</tr>");
 			}
 %>
@@ -131,11 +146,13 @@ Please format the time as "YYYY-MM-DD HH:MM:SS", otherwise it will not work.
 	<input type="radio" name="action" value="Delete"> Delete
 	<br>
 	<select name="edit" id="edit">
-		<option value="arrival datetime">Arrival DateTime</option>
-		<option value="departure datetime">Departure DateTime</option>
+		<option value="arrival date">Arrival Date</option>
+		<option value="arrival time">Arrival Time</option>
+		<option value="departure date">Departure Date</option>
+		<option value="departure time">Departure Time</option>
 	</select>
 	to
-	<input type="datetime-local" id="time" value = "2020-08-08 9:20:00" name="time">
+	<input type="datetime-local" id="time" value = "" name="time">
 	
 	<br>		
 	<input type="submit" value="Submit">
@@ -143,7 +160,7 @@ Please format the time as "YYYY-MM-DD HH:MM:SS", otherwise it will not work.
 	
 </form>
 <br>
-Please format the time as "YYYY-MM-DD HH:MM:SS", otherwise it will not work.
+PLease format the date as "YYYY-MM-DD" and/or time as "HH:MM:SS", otherwise it will not work. 
 <br>
 <br>
 <form method="get" action="customerRepHomepage.jsp">
@@ -152,7 +169,6 @@ Please format the time as "YYYY-MM-DD HH:MM:SS", otherwise it will not work.
 
 <%	
 		}
-		
 		
 		//Close the connection. Don't forget to do it, otherwise you're keeping the resources of the server allocated.
 		con.close();

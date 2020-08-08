@@ -30,8 +30,10 @@
 		    <th>Transit Line Name</th>
 		    <th>Train ID</th> 
 		    <th>Final Destination</th>
-		    <th>Arriving At:</th>
-		    <th>Departing At:</th>
+		    <th>Arrival Date</th>
+		    <th>Arrival Time</th>
+		    <th>Departure Date</th>
+		    <th>Departure Time</th>
 		  </tr>
 		<%
 
@@ -46,12 +48,14 @@
 			
 		while (result.next()) {
 				
-			String transitLine = result.getString("Transit Line Name");
+			String transitLine = result.getString("TransitLineName");
 			String trainID = result.getString("train ID");
-			String arrival = result.getString("arrival datetime");
-			String departure = result.getString("departure datetime");
+			String arrivalD = result.getString("arrival date");
+			String arrivalT = result.getString("arrival time");
+			String departureD = result.getString("departure date");
+			String departureT = result.getString("departure time");
 		
-			String str2 = "SELECT * FROM TrainSchedule WHERE trainID = " + trainID + "";
+			String str2 = "SELECT * FROM TrainSchedule WHERE TrainID = " + trainID + "";
 			ResultSet result2 = stmt2.executeQuery(str2);
 			result2.next();
 			String dest = result2.getString("Destination");
@@ -60,8 +64,10 @@
 			out.print("<td>" + transitLine + "</td>");
 			out.print("<td>" + trainID + "</td>");
 			out.print("<td>" + dest + "</td>");
-			out.print("<td>" + arrival + "</td>");
-			out.print("<td>" + departure + "</td>");
+			out.print("<td>" + arrivalD + "</td>");
+			out.print("<td>" + arrivalT + "</td>");
+			out.print("<td>" + departureD + "</td>");
+			out.print("<td>" + departureT + "</td>");
 			out.print("</tr>");
 		}
 		

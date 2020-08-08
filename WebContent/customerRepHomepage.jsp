@@ -129,6 +129,57 @@ Customer Questions
 		<input type="submit" value="Answer Customer Questions">
 	</form>
 <br>
+Get List of Customers on a Given Transit and Date
+<form method="get" action="customerList.jsp">
+	<label for="transitline">Transit Line:</label>
+	  <select name="transitline" id="transitline">
+<%
+	try {
+		//Get the database connection
+		ApplicationDB db = new ApplicationDB();	
+		Connection con = db.getConnection();
+
+		//Create a SQL statement
+		Statement stmt = con.createStatement();
+		Statement stmt2 = con.createStatement();
+
+		String str = "SELECT DISTINCT TLN FROM Reservation";
+		// run query against database
+		ResultSet result = stmt.executeQuery(str);
+		//parse out the results
+		while (result.next()) {
+			
+			String tln = result.getString("TLN");
+			String val = "\"<option value=\"" + tln + "\">" + tln + "</option>\"";
+			out.print(val);
+			
+		}
+%>
+	</select>
+	<label for="date">Date:</label>
+	  <select name="date" id="date">
+<%
+		String str2 = "SELECT DISTINCT CAST(reservation_date AS DATE)date FROM Reservation";
+		ResultSet result2 = stmt2.executeQuery(str2);
+		while (result2.next()) {
+			String date = result2.getString("date");	
+			String val = "\"<option value=\"" + date + "\">" + date + "</option>\"";
+			out.print(val);
+		}
+		//Close the connection. Don't forget to do it, otherwise you're keeping the resources of the server allocated.
+		con.close();
+		
+		
+	} catch (Exception ex) {
+		out.print(ex);
+		out.print("obtaining questions failed");
+	}
+%>
+		
+	</select>
+		<input type="submit" value="Search">
+	</form>
+
 	<form method="get" action="index.jsp">
 
 		<input type="submit" value="Logout">
