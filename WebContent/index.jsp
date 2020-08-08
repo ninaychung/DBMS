@@ -15,9 +15,7 @@
 <% out.println("WELCOME TO THE HOME PAGE!"); %> <!-- output the same thing, but using 
                                       jsp programming -->
 
-									  
 <br>
-
 Login
 <br>
 	<form method="get" action="checkLogin.jsp">
@@ -61,7 +59,71 @@ Signup - Customers Only
 
 		<input type="submit" value="Sign Up">
 	</form>
+
 <br>
+Browse Available Trips:
+<br>
+
+<div>
+	<form method="get" action="browse.jsp">
+		<table 
+		style = "background-color: lightgreen; display: inline-block">
+			<tr>    
+				<td>Day of Travel (YYYY-MM-DD):</td><td><input type="departDate" name="departDate" required></td>
+			</tr>
+			<tr>    
+				<td>Origin Station:</td><td><input type="fromStation" name="fromStation" required></td>
+			</tr>
+			<tr>
+				<td>Destination Station:</td><td><input type="toStation" name="toStation" required></td>
+			</tr>
+		</table>
+
+<br>
+
+<form method="get" action="browse.jsp">
+		<input type="submit" value="Find Trains">
+		-->
+	</form>
+	
+<br>
+	<form method="get" action="sort.jsp">		
+		<label>OR</label>
+		<label>Sort Trips By:</label>
+		
+	<div>
+	<form method="get" action="sort.jsp">
+	<table 
+		style = "background-color: cyan; display: inline-block">
+			<tr>    
+				<td>Day of Travel (YYYY-MM-DD):</td><td><input type="departDate" name="departDate" required></td>
+			</tr>
+			<tr>    
+				<td>Origin Station:</td><td><input type="fromStation" name="fromStation" required></td>
+			</tr>
+			<tr>
+				<td>Destination Station:</td><td><input type="toStation" name="toStation" required></td>
+			</tr>
+	</table>
+	
+<br>
+
+<select name="sortBy">
+				<option> </option>
+				<option>ArrivalTime</option>
+				<option>DepartureTime</option>
+				<option>Fare</option>
+			</select>
+	<input type="submit" value="Sort">
+	-->	
+	
+<br>
+</div>
+
+<br>
+
+</body>
+</html>
 
 
 
