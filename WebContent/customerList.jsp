@@ -25,9 +25,7 @@
 		//Get parameters from the HTML form at the index.jsp
 		
 		String transitline = request.getParameter("transitline");
-		System.out.println("transitline: " + transitline);
 		String date = request.getParameter("date");
-		System.out.println("date: " + date);
 		out.print("<h2> List of Customers who have reservations on " + transitline + " on " + date + "</h2>"); 
 %>
 		<table style="width:100%">
@@ -46,7 +44,6 @@
 		
 		while (result.next()) {
 			String username = result.getString("Username");
-			System.out.println("username: " + username);
 			out.print("<tr>");
 			out.print("<th>" + username + "</th>");
 			out.print("</tr>");
