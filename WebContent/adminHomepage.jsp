@@ -126,27 +126,27 @@ try {
 	String Pw = request.getParameter("Pw");
 	String Fn = request.getParameter("Fn");
 	String Ln = request.getParameter("Ln");
-
-
+	if (!(Ssn == null)) {
 		//Make an insert statement for the Customer table:
-		String insert = "INSERT INTO TrainProject.CustomerRep(SSN, Username, Password, FirstName, LastName)"
-						+ "VALUES (?, ?, ?, ?, ?)";
-		//Create a Prepared SQL statement allowing you to introduce the parameters of the query
-		PreparedStatement ps = con1.prepareStatement(insert);
+				String insert = "INSERT INTO TrainProject.CustomerRep(SSN, Username, Password, FirstName, LastName)"
+								+ "VALUES (?, ?, ?, ?, ?)";
+				//Create a Prepared SQL statement allowing you to introduce the parameters of the query
+				PreparedStatement ps = con1.prepareStatement(insert);
 
-		//Add parameters of the query. Start with 1, the 0-parameter is the INSERT statement itself
-		ps.setString(1, Ssn);
-		ps.setString(2, Un);
-		ps.setString(3, Pw);
-		ps.setString(4, Fn);
-		ps.setString(5, Ln);
-		//Run the query against the DB
-		ps.executeUpdate();
-		/*
-		String redirectUrl;
-		redirectUrl = "http://localhost:8080/cs336Sample_(1)/adminHomepage.jsp";
-		response.sendRedirect(redirectUrl);
-		*/
+				//Add parameters of the query. Start with 1, the 0-parameter is the INSERT statement itself
+				ps.setString(1, Ssn);
+				ps.setString(2, Un);
+				ps.setString(3, Pw);
+				ps.setString(4, Fn);
+				ps.setString(5, Ln);
+				//Run the query against the DB
+				ps.executeUpdate();
+				out.print("New Customer Rep Added. Refresh your page.");
+	}
+
+
+		
+
 	//Close the connection. Don't forget to do it, otherwise you're keeping the resources of the server allocated.
 	con1.close();
 	
@@ -212,6 +212,7 @@ try {
 	*/
 	//Close the connection. Don't forget to do it, otherwise you're keeping the resources of the server allocated.
 	con1.close();
+	
 	
 	
 } catch (Exception ex) {
@@ -296,9 +297,7 @@ Sales Report:
 		Statement stmt = con.createStatement();
 
 		String str = "SELECT * FROM TrainProject.Reservation";
-		//String str2 = "SELECT CAST(reservation_date AS DATE)date FROM Reservation";
 		ResultSet result = stmt.executeQuery(str);
-		//ResultSet result1 = stmt.executeQuery(str2);
 		//parse out the results
 		while (result.next()) {
 			String rn = result.getString("reservation number");
@@ -335,23 +334,6 @@ Sales Report:
 %>
 </table>
 <br>
-List of reservations By:
-<form method="get" action="adminHomepage.jsp">		
-<br>
-<label>Sort By:</label>
-<select name="sortBy">
-<option> </option>
-<option>Transit Line</option>
-<option>customer Name</option>
-</select>
-<input type="submit" value="Sort">
-
-<%
-String sortBy = request.getParameter("sortBy");
-
-%>
- </form>
- 
 
 <br>
 Obtain Sales Report By Month:
@@ -373,6 +355,123 @@ Obtain Sales Report By Month:
 	</select>
 	<input type="submit" value="Go">
 </form>
+<br> 
+<form>
+List of reservations By Transit Line Names:
+
+
+<table border = "1" width = "100%">
+   	<tr>
+	    	<th>TransitLineName</th>
+			<th>Origin</th>
+			<th>Destination</th>
+			<th>DepartureDate</th>
+			<th>ArrivalDate</th>
+			<th>DepartureTime</th>
+	</tr>
+
+
+<%
+try {
+	
+
+	//Get the database connection
+	ApplicationDB db = new ApplicationDB();	
+	Connection con = db.getConnection();
+
+	//Create a SQL statement
+	Statement stmt = con.createStatement();
+
+	String str = "SELECT * FROM TrainProject.TrainSchedule";
+	// run query against database
+	ResultSet result = stmt.executeQuery(str);
+	
+	//parse out the results
+	while (result.next()) {
+		String tln = result.getString("TransitLineName");
+		String o = result.getString("Origin");
+		String d = result.getString("Destination");
+		String dd = result.getString("DepartureDate");
+		String ad = result.getString("ArrivalDate");
+		String dt = result.getString("DepartureTime");
+		out.print("<tr>");
+		out.print("<td>"+tln+"</td>");
+		out.print("<td>"+o+"</td>");
+		out.print("<td>"+d+"</td>");
+		out.print("<td>"+dd+"</td>");
+		out.print("<td>"+ad+"</td>");
+		out.print("<td>"+dt+"</td>");
+		out.print("</tr>");
+	}
+
+	//Close the connection. Don't forget to do it, otherwise you're keeping the resources of the server allocated.
+	con.close();
+	
+	
+	
+} catch (Exception ex) {
+	out.print(ex);
+	out.print("Producing List of Reservation Failed");
+}
+
+%>
+ </form>
+ </table>
+ 
+ <br> 
+<br> 
+
+List of reservations By Customer Names:
+
+
+<table border = "1" width = "100%">
+   	<tr>
+	    	<th>First Name</th>
+			<th>Last Name</th>
+			<th>Email</th>
+	</tr>
+	
+	<%
+	try {
+		
+		//Get the database connection
+		ApplicationDB db = new ApplicationDB();	
+		Connection con = db.getConnection();
+
+		//Create a SQL statement
+		Statement stmt = con.createStatement();
+
+		String str = "SELECT * FROM TrainProject.Customer";
+		// run query against database
+		ResultSet result = stmt.executeQuery(str);
+		
+		//parse out the results
+		while (result.next()) {
+			String fn = result.getString("FirstName");
+			String ln = result.getString("LastName");
+			String e = result.getString("Email");
+			out.print("<tr>");
+			out.print("<td>"+fn+"</td>");
+			out.print("<td>"+ln+"</td>");
+			out.print("<td>"+e+"</td>");
+			out.print("</tr>");
+		}
+
+		//Close the connection. Don't forget to do it, otherwise you're keeping the resources of the server allocated.
+		con.close();
+		
+		
+		
+	} catch (Exception ex) {
+		out.print(ex);
+		out.print("Producing List of Reservation Failed");
+	}
+
+	
+	%>
+
+ </table>
+
 <br>
 Best Customer by Revenue: 
 <br>
@@ -413,6 +512,29 @@ Best Customer by Revenue:
 		out.print("obtaining best customer Failed");
 	}
 %>
+<br>
+<br>
+5 Most Active Transit Lines by Most Reservations:
+<br>
+Select Month:
+<form method="get" action="mostReservations.jsp">
+	  <select name="month" id="month">
+	  	<option value="1">January</option>
+	  	<option value="2">February</option>
+	  	<option value="3">March</option>
+	  	<option value="4">April</option>
+	  	<option value="5">May</option>
+	  	<option value="6">June</option>
+	  	<option value="7">July</option>
+	  	<option value="8">August</option>
+	  	<option value="9">September</option>
+	  	<option value="10">October</option>
+	  	<option value="11">November</option>
+	  	<option value="12">December</option>
+	  	
+	</select>
+	<input type="submit" value="Go">
+</form>
 
 
 </body>

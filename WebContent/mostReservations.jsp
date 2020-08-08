@@ -7,35 +7,56 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Sales Report</title>
+<title>Most Reservations</title>
 </head>
 <body>
-
+<h2>5 Most Active Transit Line Names</h2>
 <%
 	try {
 		//Get the database connection
 		ApplicationDB db = new ApplicationDB();	
 		Connection con = db.getConnection();
 		String month = request.getParameter("month");
+		
 		//Create a SQL statement
 		Statement stmt = con.createStatement();
-		String str = "SELECT SUM(`fare cost`)sum FROM Reservation WHERE MONTH(CAST(reservation_date AS DATE)) = " + month + "";
+		
+		//String str = "SELECT SUM(`fare cost`)sum FROM Reservation WHERE MONTH(CAST(reservation_date AS DATE)) = " + month + "";
+		String str = "SELECT COUNT(TLN) AS count, TLN FROM Reservation WHERE MONTH(CAST(reservation_date AS DATE)) = " + month + " GROUP BY TLN ORDER BY COUNT(TLN) DESC";
 		
 		// run query against database
 		ResultSet result = stmt.executeQuery(str);
 		//parse out the results
+		System.out.println("result: " + result);
 		
-		while (result.next()) {
+		if (!result.isBeforeFirst()) {
+			out.print("Seems like there were no reservations for this month :/");
+		} else {
 			
-			String sum = result.getString("sum");
-			if (sum == null) {
-				out.print("No sales have been generated this month :/");
-			} else {
-				out.print("Total Amount Earned: " + sum);
+%>
+<table style="width:100%">
+	<tr>
+		<th>Transit Line Name</th>
+		<th>Number of Reservations</th>
+	</tr>
+<% 
+			int num = 0;
+			
+			while (result.next() && num < 5) {
+					
+				String count = result.getString("count");
+				String tln = result.getString("TLN");
+				
+				out.print("<tr>");
+				out.print("<td>" + tln + "</td>");
+				out.print("<td>" + count + "</td>");
+				out.print("</tr>");
+				num++;
+				
+				
 			}
-			
-			
 		}
+		
 
 		//Close the connection. Don't forget to do it, otherwise you're keeping the resources of the server allocated.
 		con.close();
@@ -43,9 +64,11 @@
 		
 	} catch (Exception ex) {
 		out.print(ex);
-		out.print("obtaining questions failed");
+		out.print(" obtaining most reservations failed");
 	}
 %>
+
+</table>
 <br>
 	<form method="get" action="adminHomepage.jsp">
 

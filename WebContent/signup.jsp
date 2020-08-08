@@ -52,7 +52,7 @@
 			//Run the query against the DB
 			ps.executeUpdate();		
 			
-				String redirectUrl = "http://localhost:8080/cs336Sample_(2)/customerHomepage.jsp";
+				String redirectUrl = "http://localhost:8080/cs336Sample_(2)/index.jsp";
 				response.sendRedirect(redirectUrl);
 			
 		}
