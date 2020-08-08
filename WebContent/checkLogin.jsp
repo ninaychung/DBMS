@@ -37,6 +37,7 @@
 			out.print("Welcome, " + username);
 			String redirectUrl;
 			if (entity.equals("CustomerRep")) {
+				
 				redirectUrl = "http://localhost:8080/cs336Sample_(2)/customerRepHomepage.jsp";
 				response.sendRedirect(redirectUrl);
 			} else if(entity.equals("Customer")) {

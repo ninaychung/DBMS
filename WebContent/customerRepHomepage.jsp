@@ -12,6 +12,8 @@
 <body>
 YOU ARE AT THE CUSTOMER REP HOMEPAGE
 <br>
+
+<br>
 Search Train Schedules:
 
 <!-- query stations -->
@@ -66,10 +68,71 @@ Edit and Delete Information from Train Schedules:
 	</form>
 
 <br>
+Customer Questions
+<br>
+<table style="width:100%">
+		  <tr>
+		    <th>Customer Username:</th>
+		    <th>Question</th> 
+		    <th>Answer</th>
+		    <th>Answered By:</th>
+		  </tr>
+<%
+	try {
+		//Get the database connection
+		ApplicationDB db = new ApplicationDB();	
+		Connection con = db.getConnection();
+
+		//Create a SQL statement
+		Statement stmt = con.createStatement();
+		Statement stmt2 = con.createStatement();
+
+		String str = "SELECT * FROM AskQuestion";
+		// run query against database
+		ResultSet result = stmt.executeQuery(str);
+		//parse out the results
+		while (result.next()) {
+			
+			String customer = result.getString("Username");
+			String question = result.getString("Question");
+			String answer = result.getString("Answer");
+			String SSN = result.getString("SSN");
+			String customerrep = "";
+			if (!SSN.equals("")) {
+				// get customer rep's username
+				String str2 = "SELECT Username FROM CustomerRep WHERE SSN = \"" + result.getString("SSN") + "\"";
+				ResultSet result2 = stmt2.executeQuery(str2);
+				result2.next();
+				customerrep = result2.getString("Username");
+			}
+			out.print("<tr>");
+			out.print("<td>" + customer + "</td>");
+			out.print("<td>" + question + "</td>");
+			out.print("<td>" + answer + "</td>");
+			out.print("<td>" + customerrep + "</td>");
+			out.print("</tr>");
+		}
+		
+		//Close the connection. Don't forget to do it, otherwise you're keeping the resources of the server allocated.
+		con.close();
+		
+		
+	} catch (Exception ex) {
+		out.print(ex);
+		out.print("obtaining questions failed");
+	}
+%>
+</table>
+<br>
+	<form method="get" action="answerQuestions.jsp">
+
+		<input type="submit" value="Answer Customer Questions">
+	</form>
+<br>
 	<form method="get" action="index.jsp">
 
 		<input type="submit" value="Logout">
 	</form>
-<br>
+
 </body>
 </html>
