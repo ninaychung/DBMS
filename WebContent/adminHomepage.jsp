@@ -223,89 +223,51 @@ try {
 
 <br>
 <br>
-Edit Customer Reps Here:
-<br>
-<form method="get" action="adminHomepage.jsp">
-<table>
-	<tr>    
-		<td>SSN From</td><td><input type="text" name="Ssnf" ></td>
-	</tr>
-	<tr>    
-		<td>SSN To</td><td><input type="text" name="Ssnt" ></td>
-	</tr>
-	<tr>
-	    <td>Username From</td><td><input type="text" name="Unf"></td>
-	</tr>
-	<tr>
-	    <td>Username To</td><td><input type="text" name="Unt"></td>
-	</tr>
-	<tr>
-		<td>Password From</td><td><input type="password" name="Pwf" ></td>
-	</tr>
-	<tr>
-		<td>Password To</td><td><input type="password" name="Pwt" ></td>
-	</tr>
-	<tr>
-		<td>FirstName From</td><td><input type="text" name="Fnf"></td>
-	</tr>
-	<tr>
-		<td>FirstName To</td><td><input type="text" name="Fnt"></td>
-	</tr>
-	<tr>
-		<td>LastName From</td><td><input type="text" name="Lnf" ></td>
-	</tr>
-	<tr>
-		<td>LastName To</td><td><input type="text" name="Lnt" ></td>
-	</tr>
-					
-</table>
-<input type="submit" value="Update Customer Rep">
+Edit Customer Rep Info:
+<form method="get" action="editCustomerRep.jsp">
+<label for="ssn">SSN:</label>
+	  <select name="ssn" id="ssn">
+<%
+	try {
+	
+		//Get the database connection
+		ApplicationDB db = new ApplicationDB();	
+		Connection con = db.getConnection();
+
+		//Create a SQL statement
+		Statement stmt = con.createStatement();
+
+		String str = "SELECT SSN FROM CustomerRep";
+		ResultSet result = stmt.executeQuery(str);
+		//parse out the results
+		while (result.next()) {
+			String ssn = result.getString("SSN");
+			String val = "\"<option value=\"" + ssn + "\">" + ssn + "</option>\"";
+			out.print(val);
+		}
+		
+		//Close the connection. Don't forget to do it, otherwise you're keeping the resources of the server allocated.
+		con.close();
+	
+		
+	} catch (Exception ex) {
+		out.print(ex);
+		out.print("obtaining Customer Rep SSN Failed");
+	}
+%>
+	</select>
+<label for="edit">Edit:</label>
+	  <select name="edit" id="edit">
+	  	<option value="Username">Username</option>
+	  	<option value="Password">Password</option>
+	  	<option value="FirstName">FirstName</option>
+	  	<option value="LastName">LastName</option>
+	  </select>
+	  <input type="text" name="editTo" required>
+	  <input type="submit" value="Submit">
 </form>
 
-<%
-try {
 
-	//Get the database connection
-	ApplicationDB db = new ApplicationDB();	
-	Connection con1 = db.getConnection();
-
-	//Create a SQL statement
-	Statement stmt1 = con1.createStatement();
-	
-	String Ssnf = request.getParameter("Ssnf");
-	String Unf = request.getParameter("Unf");
-	String Pwf = request.getParameter("Pwf");
-	String Fnf = request.getParameter("Fnf");
-	String Lnf = request.getParameter("Lnf");
-	String Ssnt = request.getParameter("Ssnt");
-	String Unt = request.getParameter("Unt");
-	String Pwt = request.getParameter("Pwt");
-	String Fnt = request.getParameter("Fnt");
-	String Lnt = request.getParameter("Lnt");
-
-
-		//Make an insert statement for the Customer table:
-		PreparedStatement update = con1.prepareStatement("UPDATE CustomerRep SET SSN = Ssnt, Username = Unt, Password = Pwt, FirstName = Fnt, LastName = Lnt WHERE SSN =Ssnf");
-		//Create a Prepared SQL statement allowing you to introduce the parameters of the query
-		update.setString(1, Ssnt);
-		update.setString(2, Unt);
-		update.setString(3, Pwt);
-		update.setString(4, Fnt);
-		update.setString(5, Lnt);
-		update.executeUpdate();
-
-	
-	
-	//Close the connection. Don't forget to do it, otherwise you're keeping the resources of the server allocated.
-	con1.close();
-	
-	
-} catch (Exception ex) {
-	out.print(ex);
-	out.print("Insert Failed");
-}
-
-%>
 <br>
 Sales Report:	
 <br>
