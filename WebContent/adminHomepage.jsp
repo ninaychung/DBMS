@@ -373,6 +373,47 @@ Obtain Sales Report By Month:
 	</select>
 	<input type="submit" value="Go">
 </form>
+<br>
+Best Customer by Revenue: 
+<br>
+<%
+	try {
+	
+		//Get the database connection
+		ApplicationDB db = new ApplicationDB();	
+		Connection con = db.getConnection();
+
+		//Create a SQL statement
+		Statement stmt = con.createStatement();
+
+		String str = "SELECT Reserves.Username AS username, SUM(Reservation.`fare cost`) AS total FROM Reservation, Reserves WHERE Reservation.`reservation number` = Reserves.`reservation number` GROUP BY Reserves.Username";
+		ResultSet result = stmt.executeQuery(str);
+		//parse out the results
+		String bestCustomer = "";
+		int amount = 0;
+		while (result.next()) {
+			
+			String username = result.getString("username");
+		
+			int total = result.getInt("total");
+			if (total > amount) {
+				bestCustomer = username;
+				amount = total;
+			}
+		}
+		out.print("Customer Username: " + bestCustomer + "<br>");
+		out.print("Amount Spent: " + amount);
+		
+		//Close the connection. Don't forget to do it, otherwise you're keeping the resources of the server allocated.
+		con.close();
+	
+		
+	} catch (Exception ex) {
+		out.print(ex);
+		out.print("obtaining best customer Failed");
+	}
+%>
+
 
 </body>
 </html>

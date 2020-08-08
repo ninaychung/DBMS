@@ -16,11 +16,8 @@
 		ApplicationDB db = new ApplicationDB();	
 		Connection con = db.getConnection();
 		String ssn = request.getParameter("ssn");
-		System.out.println("ssn: " + ssn);
 		String edit = request.getParameter("edit");
-		System.out.println("edit: " + edit);
 		String editTo = request.getParameter("editTo");
-		System.out.println("editTo: " + editTo);
 		
 		//Create a SQL statement
 		Statement stmt = con.createStatement();
