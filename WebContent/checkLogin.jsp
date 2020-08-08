@@ -41,7 +41,7 @@
 				redirectUrl = "http://localhost:8080/cs336Sample_(2)/customerRepHomepage.jsp";
 				response.sendRedirect(redirectUrl);
 			} else if(entity.equals("Customer")) {
-				redirectUrl = "http://localhost:8080/cs336Sample_(2)/customerLoginPage.jsp";
+				redirectUrl = "http://localhost:8080/cs336Sample_(2)/customerHomePage.jsp";
 				response.sendRedirect(redirectUrl);
 			} else { //admin
 				redirectUrl = "http://localhost:8080/cs336Sample_(2)/adminHomepage.jsp";
