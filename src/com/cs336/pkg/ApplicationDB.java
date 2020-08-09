@@ -31,7 +31,7 @@ public class ApplicationDB {
 		}
 		try {
 			//Create a connection to your DB
-			connection = DriverManager.getConnection(connectionUrl,"nychung", "NYCRory344:)");
+			connection = DriverManager.getConnection(connectionUrl,"AWSUSERNAME", "AWSPASSWORD");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
