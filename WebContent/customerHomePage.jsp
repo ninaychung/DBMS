@@ -137,5 +137,126 @@ Select:
 		<input type="submit" value="Logout">
 	</form>
 <br>
+Question & Answer Forum:
+<table style="width:100%">
+		  <tr>
+		    <th>Question</th>
+		    <th>Asked By</th> 
+		    <th>Answer</th>
+		    <th>Answered By</th>
+
+		  </tr>
+<%
+	try {
+
+		//Get the database connection
+		ApplicationDB db = new ApplicationDB();	
+		Connection con = db.getConnection();
+
+		//Create a SQL statement
+		Statement stmt = con.createStatement();
+		Statement stmt2 = con.createStatement();
+		
+
+		//Make a SELECT query from the sells table with the price range specified by the 'price' parameter at the index.jsp
+		String str = "SELECT * FROM AskQuestion";
+		
+		//Run the query against the database.
+		
+		ResultSet result = stmt.executeQuery(str);
+		
+		//parse out the results
+			
+		while (result.next()) {
+				
+			String question = result.getString("Question");
+			String customerun = result.getString("CustomerUN");
+			out.print("<tr>");
+			out.print("<td>" + question + "</td>");
+			out.print("<td>" + customerun + "</td>");
+
+			String answer = result.getString("Answer");
+			if (answer == null) {
+				out.print("<td></td>");
+				out.print("<td></td>");
+			} else {
+				String ssn = result.getString("Rep SSN");
+				String str2 = "SELECT Username FROM CustomerRep WHERE SSN = \"" + ssn + "\"";
+				ResultSet result2 = stmt2.executeQuery(str2);
+				result2.next();
+				String repun = result2.getString("Username");
+				out.print("<td>" + answer + "</td>");
+				out.print("<td>" + repun + "</td>");
+			}
+			
+			out.print("</tr>");
+		}
+		
+		
+		//Close the connection. Don't forget to do it, otherwise you're keeping the resources of the server allocated.
+		con.close();
+		
+		
+	} catch (Exception ex) {
+		out.print(ex);
+		out.print(" Getting AskQuestion Database failed");
+	}
+%>
+</table>
+<br>
+Search Question by Keyword:
+	<form method="get" action="searchQuestion.jsp">
+		<input type="text" name="search" required>
+		<input type="submit" value="Search">
+	</form>
+		
+<br>
+Ask a Question:
+	<form method="get" action="askQuestion.jsp">
+		<input type="text" name="question">		
+		
+		<label for="username">Your Username:</label>
+	  	<select name="username" id="username" required>
+
+<%
+	try {
+
+		//Get the database connection
+		ApplicationDB db = new ApplicationDB();	
+		Connection conn = db.getConnection();
+
+		//Create a SQL statement
+		Statement state = conn.createStatement();
+		
+		String strng = "SELECT Username FROM Customer";
+		// run query against database
+		ResultSet rslt = state.executeQuery(strng);
+		
+		//parse out the results
+		while (rslt.next()) {
+			String username = rslt.getString("Username");
+			String valu = "\"<option value=\"" + username + "\">" + username + "</option>\"";
+			//Make an HTML table to show the results in:
+			out.print(valu);
+		}
+		
+		//Close the connection. Don't forget to do it, otherwise you're keeping the resources of the server allocated.
+		conn.close();
+		
+		
+	} catch (Exception except) {
+		out.print(except);
+		out.print("obtaining Stations failed");
+	}
+%>
+		</select>
+
+
+
+		<input type="submit" value="Ask Away!">
+	</form>
+
+	
+
 </body>
 </html>
