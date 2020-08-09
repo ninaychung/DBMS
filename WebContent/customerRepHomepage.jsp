@@ -93,23 +93,29 @@ Customer Questions
 		//parse out the results
 		while (result.next()) {
 			
-			String customer = result.getString("Username");
+			String customer = result.getString("CustomerUN");
 			String question = result.getString("Question");
 			String answer = result.getString("Answer");
-			String SSN = result.getString("SSN");
-			String customerrep = "";
-			if (!SSN.equals("")) {
-				// get customer rep's username
-				String str2 = "SELECT Username FROM CustomerRep WHERE SSN = \"" + result.getString("SSN") + "\"";
-				ResultSet result2 = stmt2.executeQuery(str2);
-				result2.next();
-				customerrep = result2.getString("Username");
-			}
+			String SSN = result.getString("Rep SSN");
+			System.out.println("SSN: " + SSN);
 			out.print("<tr>");
 			out.print("<td>" + customer + "</td>");
 			out.print("<td>" + question + "</td>");
-			out.print("<td>" + answer + "</td>");
-			out.print("<td>" + customerrep + "</td>");
+			String customerrep = "";
+			if (!(SSN == null)) {
+				// get customer rep's username
+				String str2 = "SELECT Username FROM CustomerRep WHERE SSN = \"" + result.getString("Rep SSN") + "\"";
+				ResultSet result2 = stmt2.executeQuery(str2);
+				result2.next();
+				customerrep = result2.getString("Username");
+				out.print("<td>" + answer + "</td>");
+				out.print("<td>" + customerrep + "</td>");
+			} else {
+				out.print("<td></td>");
+				out.print("<td></td>");
+			}
+			
+			
 			out.print("</tr>");
 		}
 		
@@ -159,12 +165,14 @@ Get List of Customers on a Given Transit and Date
 	<label for="date">Date:</label>
 	  <select name="date" id="date">
 <%
-		String str2 = "SELECT DISTINCT CAST(reservation_date AS DATE)date FROM Reservation";
+		String str2 = "SELECT CAST(reservation_date AS DATE)date FROM Reservation";
 		ResultSet result2 = stmt2.executeQuery(str2);
 		while (result2.next()) {
-			String date = result2.getString("date");	
+			String date = result2.getString("date");
+
 			String val = "\"<option value=\"" + date + "\">" + date + "</option>\"";
 			out.print(val);
+			
 		}
 		//Close the connection. Don't forget to do it, otherwise you're keeping the resources of the server allocated.
 		con.close();
@@ -172,7 +180,7 @@ Get List of Customers on a Given Transit and Date
 		
 	} catch (Exception ex) {
 		out.print(ex);
-		out.print("obtaining questions failed");
+		out.print("obtaining reservation failed");
 	}
 %>
 		

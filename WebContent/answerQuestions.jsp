@@ -34,11 +34,11 @@ Customer Questions
 		//parse out the results
 		while (result.next()) {
 			
-			String customer = result.getString("Username");
+			String customer = result.getString("CustomerUN");
 			String question = result.getString("Question");
-			String SSN = result.getString("SSN");
-			
-			if (SSN.equals("")) { // you can only answer questions that has not been answered
+			String SSN = result.getString("Rep SSN");
+			System.out.println("SSN in answerQuestin: " + SSN);
+			if (SSN == null) { // you can only answer questions that has not been answered
 				out.print("<td><input type=\"radio\" name=\"select\" value=\"" + customer + " " + question +  "\"required></td>");
 				out.print("<td>" + customer + "</td>");
 				out.print("<td>" + question + "</td>");

@@ -22,20 +22,21 @@
 		Statement stmt = con.createStatement();
 		Statement stmt2 = con.createStatement();
 		String select = request.getParameter("select");
-		String[] arr = select.split(" ");
+		String[] arr = select.split(" ", 2);
 		String answer = request.getParameter("answer");
 		String repun = request.getParameter("repun");
 		// get SSN
 		String str = "SELECT SSN FROM CustomerRep WHERE Username = \"" + repun + "\"";
 		ResultSet result = stmt.executeQuery(str);
 		String SSN = "";
+		
 		while (result.next()) {
 			SSN = result.getString("SSN");
-			
+			System.out.println("SSN IN performanswerquestion: " + SSN);
 		}
-		String str2 = "UPDATE AskQuestion SET Answer = \"" + answer + "\", SSN = \"" + SSN + "\" WHERE Username = \"" + arr[0] + "\" AND Question = \"" + arr[1] + "\"";
+		String str2 = "UPDATE AskQuestion SET Answer = \"" + answer + "\", `Rep SSN` = \"" + SSN + "\" WHERE CustomerUN = \"" + arr[0] + "\" AND Question = \"" + arr[1] + "\"";
 		stmt2.executeUpdate(str2);
-		
+		System.out.println("str: " + str2);
 		out.println("Update successful");
 
 		
