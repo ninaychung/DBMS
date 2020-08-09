@@ -10,7 +10,8 @@
 		<title>Train Project</title>
 	</head>
 <body>
-
+<img src="train.jpeg" class="train" width="100%" height="180">
+<br>
 
 <% out.println("WELCOME TO THE HOME PAGE!"); %> <!-- output the same thing, but using 
                                       jsp programming -->

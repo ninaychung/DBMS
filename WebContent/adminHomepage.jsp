@@ -127,6 +127,7 @@ try {
 	String Fn = request.getParameter("Fn");
 	String Ln = request.getParameter("Ln");
 	if (!(Ssn == null)) {
+		if(Ssn != "" && Un != "" && Pw != "" && Fn != "" && Ln != ""){
 		//Make an insert statement for the Customer table:
 				String insert = "INSERT INTO TrainProject.CustomerRep(SSN, Username, Password, FirstName, LastName)"
 								+ "VALUES (?, ?, ?, ?, ?)";
@@ -142,7 +143,12 @@ try {
 				//Run the query against the DB
 				ps.executeUpdate();
 				out.print("New Customer Rep Added. Refresh your page.");
-	}
+		}
+		else{
+			out.print("You must fill all the fields Please!");
+		}
+		}
+	
 
 
 		
