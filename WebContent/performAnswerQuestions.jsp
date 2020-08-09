@@ -32,11 +32,9 @@
 		
 		while (result.next()) {
 			SSN = result.getString("SSN");
-			System.out.println("SSN IN performanswerquestion: " + SSN);
 		}
 		String str2 = "UPDATE AskQuestion SET Answer = \"" + answer + "\", `Rep SSN` = \"" + SSN + "\" WHERE CustomerUN = \"" + arr[0] + "\" AND Question = \"" + arr[1] + "\"";
 		stmt2.executeUpdate(str2);
-		System.out.println("str: " + str2);
 		out.println("Update successful");
 
 		

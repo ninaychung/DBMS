@@ -97,7 +97,6 @@ Customer Questions
 			String question = result.getString("Question");
 			String answer = result.getString("Answer");
 			String SSN = result.getString("Rep SSN");
-			System.out.println("SSN: " + SSN);
 			out.print("<tr>");
 			out.print("<td>" + customer + "</td>");
 			out.print("<td>" + question + "</td>");

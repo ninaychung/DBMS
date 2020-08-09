@@ -38,13 +38,13 @@
 			String redirectUrl;
 			if (entity.equals("CustomerRep")) {
 				
-				redirectUrl = "http://localhost:8080/cs336Sample_(2)/customerRepHomepage.jsp";
+				redirectUrl = "http://ec2-35-175-238-117.compute-1.amazonaws.com:8080/cs336Project-Group3/customerRepHomepage.jsp";
 				response.sendRedirect(redirectUrl);
 			} else if(entity.equals("Customer")) {
-				redirectUrl = "http://localhost:8080/cs336Sample_(2)/customerHomePage.jsp";
+				redirectUrl = "http://ec2-35-175-238-117.compute-1.amazonaws.com:8080/cs336Project-Group3/customerHomePage.jsp";
 				response.sendRedirect(redirectUrl);
 			} else { //admin
-				redirectUrl = "http://localhost:8080/cs336Sample_(2)/adminHomepage.jsp";
+				redirectUrl = "http://ec2-35-175-238-117.compute-1.amazonaws.com:8080/cs336Project-Group3/adminHomepage.jsp";
 				response.sendRedirect(redirectUrl);
 			}
 			

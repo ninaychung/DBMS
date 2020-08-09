@@ -111,9 +111,9 @@ Browse Available Trips:
 
 <select name="sortBy">
 				<option> </option>
-				<option>ArrivalTime</option>
-				<option>DepartureTime</option>
-				<option>Fare</option>
+				<option>`arrival time`</option>
+				<option>`departure time`</option>
+				<option>`Fare`</option>
 			</select>
 	<input type="submit" value="Sort">
 	-->	

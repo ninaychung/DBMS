@@ -8,7 +8,7 @@
 <head>
 <script>
 function signOut(){
-	 window.location = "http://localhost:8080/cs336Sample_(1)/index.jsp";	
+	 window.location = "http://ec2-35-175-238-117.compute-1.amazonaws.com:8080/cs336Project-Group3/index.jsp";	
 }
 /*
 function reFresh(){

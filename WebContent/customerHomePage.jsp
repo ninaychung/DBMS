@@ -25,12 +25,49 @@ View Reservation History
 
 <br>
 
-
 Book Trip
 <br>
 
 <!-- query stations -->
 <br>
+	<form method="get" action="bookTrip.jsp">
+	<label for="date">Date of Trip:</label>
+	  <select name="date" id="date">
+
+<%
+	try {
+
+		//Get the database connection
+		ApplicationDB db = new ApplicationDB();	
+		Connection con = db.getConnection();
+
+		//Create a SQL statement
+		Statement stmt = con.createStatement();
+
+		String str = "SELECT DISTINCT `departure date` FROM Stops ORDER BY `departure date` ASC";
+		// run query against database
+		ResultSet result = stmt.executeQuery(str);
+		
+		//parse out the results
+		while (result.next()) {
+			String deptDate = result.getString("departure date");
+			String val = "\"<option value=\"" + deptDate + "\">" + deptDate + "</option>\"";
+			//Make an HTML table to show the results in:
+			out.print(val);
+		}
+		
+		//Close the connection. Don't forget to do it, otherwise you're keeping the resources of the server allocated.
+		con.close();
+		
+		
+	} catch (Exception ex) {
+		out.print(ex);
+		out.print("obtaining dates failed");
+	}
+%>
+		</select>
+		<br>
+		<br>
 	<form method="get" action="bookTrip.jsp">
 	<label for="origin">Origin:</label>
 	  <select name="origin" id="origin">
@@ -43,15 +80,15 @@ Book Trip
 		Connection con = db.getConnection();
 
 		//Create a SQL statement
-		Statement stmt = con.createStatement();
+		Statement stmt2 = con.createStatement();
 
-		String str = "SELECT * FROM Station";
+		String str2 = "SELECT * FROM Station";
 		// run query against database
-		ResultSet result = stmt.executeQuery(str);
+		ResultSet result2 = stmt2.executeQuery(str2);
 		
 		//parse out the results
-		while (result.next()) {
-			String stationName = result.getString("station name");
+		while (result2.next()) {
+			String stationName = result2.getString("station name");
 			String val = "\"<option value=\"" + stationName + "\">" + stationName + "</option>\"";
 			//Make an HTML table to show the results in:
 			out.print(val);
@@ -128,14 +165,19 @@ Select:
 <br>
 <!-- submit -->
 <br>
+<form method="get" action="reservationHistory.jsp">
+		<table>
+			<tr>    
+				<td>Username:</td><td><input type="text" name="username" required></td>
+			</tr>
+		</table>
+		<br>
+		<br>
 	<form method="get" action="bookTrip.jsp">
-		<input type="submit" value="Search">
+		<input type="submit" value="Book Trip">
 	</form>
-
-	<form method="get" action="index.jsp">
-
-		<input type="submit" value="Logout">
-	</form>
+<br>
+	
 <br>
 Question & Answer Forum:
 <table style="width:100%">
@@ -256,7 +298,10 @@ Ask a Question:
 		<input type="submit" value="Ask Away!">
 	</form>
 
-	
+	<form method="get" action="index.jsp">
+
+		<input type="submit" value="Logout">
+	</form>
 
 </body>
 </html>
